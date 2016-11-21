@@ -107,7 +107,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>keytool-maven-plugin</artifactId>
@@ -131,7 +131,7 @@
                         <skipIfExist>true</skipIfExist>
                     </configuration>
                 </plugin>
-                
+
                 <!-- Moves the context.xml file into a location that embedded Tomcat can read from -->
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -156,7 +156,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -193,7 +193,7 @@
                         <!-- See the configuration in the keytool-maven-plugin -->
                         <keystorePass>broadleaf</keystorePass>
                         <keystoreFile>${webappDirectory}/WEB-INF/blc-example.keystore</keystoreFile>
-                        
+
                         <!-- Set within each project -->
                         <port>${httpPort}</port>
                         <httpsPort>${httpsPort}</httpsPort>
@@ -201,10 +201,9 @@
                     </configuration>
                     <dependencies>
                         <dependency>
-                            <groupId>org.hsqldb</groupId>
-                            <artifactId>hsqldb</artifactId>
-                            <version>${hsqldb.version}</version>
-                            <type>jar</type>
+                            <groupId>mysql</groupId>
+                            <artifactId>mysql-connector-java</artifactId>
+                            <version>5.1.26</version>
                         </dependency>
                         <dependency>
                             <groupId>org.apache.tomcat</groupId>
@@ -220,45 +219,11 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                
+
                 <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>1.8</version>
                     <executions>
-                        <execution>
-                            <id>hsqldb-start</id>
-                            <configuration>
-                                <target>
-                                    <echo message="Starting HSQL Database..." />
-                                    <java fork="true" spawn="true" classname="org.hsqldb.Server" classpathref="maven.plugin.classpath">
-                                        <arg  line="-database.0 file:${basedir}/../data/broadleaf -dbname.0 broadleaf"/>
-                                    </java>
-                                    <echo message="Database started succcessfully" />
-                                </target>
-                            </configuration>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>hsqldb-stop</id>
-                            <configuration>
-                                <target>
-                                    <echo message="Stopping HSQL database..." />
-                                    <sql
-                                        autocommit="true"
-                                        print="true"
-                                        classpathref="maven.plugin.classpath"
-                                        driver="org.hsqldb.jdbcDriver"
-                                        url="jdbc:hsqldb:hsql://localhost/broadleaf;ifexists=true"
-                                        userid="sa"
-                                        password="">
-                                        <transaction>SHUTDOWN</transaction>
-                                    </sql>
-                                    <echo message="Database stopped successfully" />
-                                </target>
-                            </configuration>
-                        </execution>
                         <execution>
                             <id>change-identifier</id>
                             <configuration>
@@ -299,7 +264,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                
+
             </plugins>
         </pluginManagement>
     </build>
